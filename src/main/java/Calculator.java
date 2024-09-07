@@ -1,4 +1,3 @@
-import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Scanner;
 
