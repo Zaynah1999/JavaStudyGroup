@@ -75,62 +75,57 @@ import java.util.Scanner;
 //}
 
 public class Calculator {
-    public static void main (String[] args) {
 
+    static OptionalInt previousResult = OptionalInt.empty();
+    // moved this to the class to create a static level field can now be used throughout code
+    // as opposed to stuck within inputval method
+
+    static int inputVal() {
         Scanner myObj = new Scanner(System.in);
-        // research scanner object
+        int value1;
+        // previousResult starts as empty hence isPresent is false
+        if (previousResult.isPresent()) {
+            System.out.print("Enter a number, or type PREVIOUS to use last result: ");
+            String input = myObj.nextLine();
+            // as is present is true there is a value present which we retrieve in the below statement
+            // retrieve value of ispresent and then store in value1
+            if (input.equals("PREVIOUS")) {
+                value1 = previousResult.getAsInt();
+            } else {
+                value1 = Integer.parseInt(input);
+                // if they didn't want previous we are converting their input
+            }
+        } else {
+            System.out.print("Enter a number: ");
+            value1 = Integer.parseInt(myObj.nextLine());
+            // if there is no previous value present and isPresent is false we just ask them for a val
+        }
 
-        OptionalInt previousResult = OptionalInt.empty();
+        return value1;
+    }
+
+    public static void main(String[] args) {
+        Scanner myObj = new Scanner(System.in);
 
         while (true) {
-            int value1;
-            // previousResult starts as empty hence isPresent is false
-            if(previousResult.isPresent()){
-                System.out.print("Enter a number, or type PREVIOUS to use last result: ");
-                String input = myObj.nextLine();
-                if(input.equals("PREVIOUS")){
-                    // as is present is true there is a value present which we retrieve in the below statement
-                    value1 = previousResult.getAsInt();
-                }
-                else{
-                    value1 = Integer.parseInt(input);
-                    // if they didn't want previous we are converting their input
-                }
-            }
-            else{
-                System.out.print("Enter a number: ");
-                value1 = Integer.parseInt(myObj.nextLine());
-                // if there is no previous value present and isPresent is false we just ask them for a val
-            }
+            // Get first value
+            int value1 = inputVal();
 
+            // Get operation
             System.out.print("Enter operation +, -, /, *: ");
             String operation = myObj.nextLine();
             // Read user input as string
 
-            int value2;
-            if(previousResult.isPresent()){
-                System.out.print("Enter a number, or type PREVIOUS to use last result: ");
-                String input = myObj.nextLine();
-                if(input.equals("PREVIOUS")){
-                    value2 = previousResult.getAsInt();
-                }
-                else{
-                    value2 = Integer.parseInt(input);
-                }
-            }
-            else{
-                System.out.print("Enter a number: ");
-                value2 = Integer.parseInt(myObj.nextLine());
-            }
+            // Get second value
+            int value2 = inputVal();
 
             int result = 0;
             // initially just returned the statements rather than create a variable
-
             boolean error = false;
 
+            // Perform operation
             switch (operation) {
                 case "+" -> result = value1 + value2;
-                // what does arrow do thought it would be curly braces
                 case "-" -> result = value1 - value2;
                 case "*" -> result = value1 * value2;
                 case "/" -> {
@@ -138,39 +133,34 @@ public class Calculator {
                         result = value1 / value2;
                     } else {
                         System.out.println("Cannot divide by zero!");
-                        // need to make this cont not break
                         error = true;
+                        // if second value is 0 error is true
                     }
                 }
                 default -> {
                     System.out.println("Invalid operation");
                     error = true;
+                    // if wrong operation inputted then error is true
                 }
             }
+
             // if there is no error then we reveal the result
-            if (!error){
+            if (!error) {
                 System.out.println("Result: " + result);
-                previousResult = OptionalInt.of(result); // captures result into a box
-            }
-            else{
-                previousResult = OptionalInt.empty(); // leaves box as empty when error is true
+                previousResult = OptionalInt.of(result);
+            } else {
+                previousResult = OptionalInt.empty();
+                // leaves box as empty when error is true
                 // included the error variable to ensure the code does not break every time 0 is returned
                 // some scenarios such as 13-13 can result in 0 which is not incorrect
             }
+
+            // Ask to continue
             System.out.print("Would you like to continue (y/n)? ");
-            if (!myObj.nextLine().equals("y")){
+            if (!myObj.nextLine().equalsIgnoreCase("y")) {
                 System.out.println("Bye");
                 break;
             }
         }
     }
 }
-
-
-
-// add user input to continue - while loop
-// use answer from before as one of the next values
-// switch statement
-// should I account for decimals
-
-// extract 87-105 place into method and just call method again for val 2
