@@ -1,8 +1,10 @@
+package org.example;
+
 import java.util.OptionalInt;
 import java.util.Scanner;
 
 
-//public class Calculator {
+//public class org.example.Calculator {
 //    public static void main (String[] args) {
 //
 //        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
@@ -22,7 +24,7 @@ import java.util.Scanner;
 //    }
 //}
 
-//public class Calculator {
+//public class org.example.Calculator {
 //    public static void main (String[] args) {
 //
 //        Scanner myObj = new Scanner(System.in);
@@ -61,13 +63,13 @@ import java.util.Scanner;
 //            else
 //            {
 //                System.out.println("Cannot divide by zero!");
-//                new Calculator();
+//                new org.example.Calculator();
 //                // need to make this cont not break
 //            }
 //        }
 //        else {
 //            System.out.println("Invalid operation");
-//            new Calculator();
+//            new org.example.Calculator();
 //        }
 //
 //        System.out.println(result);
